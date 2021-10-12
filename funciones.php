@@ -29,9 +29,7 @@ if(isset($_POST['txtUsuario']) && isset($_POST['txtPassword']) ) {
             $registros = $mysql->query("select COUNT(*) contador from tblusuarios where usuario ='$_POST[txtUsuario]'") or
             die($mysql->error);
             
-           print_r($registros);
             if ($reg = $registros->fetch_array()){
-                echo "contador ".$reg['contador'];
                 if($reg['contador'] > 0){
                     echo  "<script>alert('El usuario ya existe')</script>";
                     echo  "<script>window.location.href='index.html';</script>";
