@@ -1,7 +1,7 @@
 <?php
  include 'conexionBD.php';
  
- print_r($_POST);
+ //print_r($_POST);
 
 if(isset($_POST['txtUsuario']) && isset($_POST['txtPassword']) ) {
     //todo correcto
@@ -29,26 +29,24 @@ if(isset($_POST['txtUsuario']) && isset($_POST['txtPassword']) ) {
             $registros = $mysql->query("select COUNT(*) contador from tblusuarios where usuario ='$_POST[txtUsuario]'") or
             die($mysql->error);
             
+           print_r($registros);
             if ($reg = $registros->fetch_array()){
+                echo "contador ".$reg['contador'];
                 if($reg['contador'] > 0){
                     echo  "<script>alert('El usuario ya existe')</script>";
                     echo  "<script>window.location.href='index.html';</script>";
                 }else {
-                        //Sirve para insertar a la base de datos
-                        $password =  md5($_POST[txtPassword]);
-                    $mysql->query("insert into tblusuarios(usuario,password,fecharegistro) values ('$_POST[txtUsuario]','$password',Now())") or
-                            die($mysql->error);
-                    $mysql->close();
-                    echo  "<script>alert('Se han insertado corectamente')</script>";
-                    echo  "<script>window.location.href='index.html';</script>";
+                     //Sirve para insertar a la base de datos
+                     $password =  $_POST['txtPassword'];
+                     $mysql->query("insert into tblusuarios(usuario,password,fecharegistro) values ('$_POST[txtUsuario]','$password',Now())") or
+                             die($mysql->error);
+                     echo  "<script>alert('Se han insertado corectamente')</script>";
+                     echo  "<script>window.location.href='index.html';</script>";         
                 }
-            } 
-        }
-
-       
- 
-        
+            }
+        }   
     }
+    $mysql->close();
 }else {
     echo "Captura los datos solicitados";
 }
